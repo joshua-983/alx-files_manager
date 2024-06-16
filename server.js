@@ -1,12 +1,30 @@
 import express from 'express';
-import startServer from './libs/boot';
-import injectRoutes from './routes';
-import injectMiddlewares from './libs/middlewares';
+import controllerRouting from './routes/index';
 
-const server = express();
+/**
+ * This project is a summary of back-end concepts:
+ * authentication, NodeJS, MongoDB, Redis,
+ * pagination and background processing.
+ *
+ * The objective was to build a simple platform to upload and view files:
+ *
+ * User authentication via a token
+ * List all files
+ * Upload a new file
+ * Change permission of a file
+ * View a file
+ * Generate thumbnails for images
+ */
 
-injectMiddlewares(server);
-injectRoutes(server);
-startServer(server);
+const app = express();
+const port = process.env.PORT || 5000;
 
-export default server;
+app.use(express.json());
+
+controllerRouting(app);
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+export default app;
